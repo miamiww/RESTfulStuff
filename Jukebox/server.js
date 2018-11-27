@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var server = app.listen(80);
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 app.get("/", function(request, response) {
   response.sendFile(__dirname + '/views/index.html');
@@ -15,18 +15,17 @@ app.get("/", function(request, response) {
 // curl -X POST -d "h=50" -d "s=100" -d "l=100" http://localhost:7000/background
 
 var bodyParser = require('body-parser');
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
   extended: false
 }));
-server.use('/', express.static('public'));
 
 var queue = [];
 
-function serverStart(request, response) {
-  var port = this.address().port;
-  console.log('Server listening on port ' + port);
-}
+// function serverStart(request, response) {
+//   var port = this.address().port;
+//   console.log('Server listening on port ' + port);
+// }
 
 function playSong(request, response) {
 	let newSong = getSong(request.body.mood, request.body.genre);
@@ -54,6 +53,8 @@ function getSong(mood, genre) {
 //NO FEEDBACK FOR WHAT SONG IT'S ON
 function getInfo(request, response) {
   response.send(queue[0]);
+  console.log('get request successt');
+  console.log(request.body.id)
 }
 
 function addSong(request, response) {
@@ -77,8 +78,8 @@ function nextSong(request, response) {
 
 
 
-server.listen(7000, serverStart);
-server.put('/queue/mood/', playSong);
-server.get('/queue/id/', getInfo);
-server.post('/queue/mood/', addSong);
-server.put('/queue/id/', nextSong);
+// server.listen(7000, serverStart);
+app.put('/queue/mood/', playSong);
+app.get('/queue/id/', getInfo);
+app.post('/queue/mood/', addSong);
+app.put('/queue/id/', nextSong);
