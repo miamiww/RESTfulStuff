@@ -8,21 +8,21 @@ let keyWord={
   gifword: ""
 }
 let fgColor = {
-  hue: 0,
-  sat: 0,
-  lig: 0
+  h: "0",
+  s: "0",
+  l: "0"
 };
 let bgColor = {
-  hue: 0,
-  sat: 0,
-  lig: 0
+  h: "0", 
+  s: "0",
+  l: "0"
 };
 let shapes = {
-  square: false,
-  circle: false,
-  triangle: false,
-  squiggle: false,
-  arc: false,
+  square: "0",
+  circle: "0",
+  triangle: "0",
+  squiggle: "0",
+  arc: "0",
 };
 
 
@@ -108,12 +108,12 @@ window.addEventListener('load', function() {
     //field cannot be empty
     if (e.keyCode === 13 && this.value != "") {
       console.log("POST", this.value);
-      let gifword = this.value;
+      let word = this.value;
       axios({
         method: 'post',
         url: URL+"/gifword",
         data:{
-          gifword
+          word
         }
       });
     }
@@ -121,27 +121,53 @@ window.addEventListener('load', function() {
 
   //for all slider inputs
   //post updated color objects
-  function postSlider(elemName, key, obj) {
+  function bgpostSlider(elemName, key, obj) {
     elemName.addEventListener('mouseup', function() {
       obj[key] = this.value;
       console.log("POST", obj);
+      axios({
+        method: 'post',
+        url: URL + "/background",
+        data: bgColor
+      })
     });
   }
 
-  postSlider(fgHue, "hue", fgColor);
-  postSlider(fgSat, "sat", fgColor);
-  postSlider(fgLig, "lig", fgColor);
+  function fgpostSlider(elemName, key, obj) {
+    elemName.addEventListener('mouseup', function() {
+      obj[key] = this.value;
+      console.log("POST", obj);
+      axios({
+        method: 'post',
+        url: URL + "/foreground",
+        data: fgColor
+      })
+    });
+  }
+  fgpostSlider(fgHue, "h", fgColor);
+  fgpostSlider(fgSat, "s", fgColor);
+  fgpostSlider(fgLig, "l", fgColor);
 
-  postSlider(bgHue, "hue", bgColor);
-  postSlider(bgSat, "sat", bgColor);
-  postSlider(bgLig, "lig", bgColor);
+  bgpostSlider(bgHue, "h", bgColor);
+  bgpostSlider(bgSat, "s", bgColor);
+  bgpostSlider(bgLig, "l", bgColor);
 
   //for all checkboxes
   //post updated shape object
   function postCheckbox(shapeName, key, obj) {
     shapeName.addEventListener("click", function() {
-      obj[key] = this.checked;
+      if(this.checked){
+        obj[key] = "1";
+      } else{
+        obj[key] = "0";
+      }
+  
       console.log("POST", obj);
+      axios({
+        method: 'post',
+        url: URL + "/shapes",
+        data: shapes
+      })
     });
   }
 
