@@ -9,11 +9,6 @@ app.get("/", function(request, response) {
 });
 
 
-// curl -X POST -d "value=1" http://localhost:7000/mode
-// curl -X POST -d "value=60" http://localhost:7000/speed
-// curl -X POST -d "circle=1" -d "square=1" http://localhost:7000/shapes
-// curl -X POST -d "h=50" -d "s=100" -d "l=100" http://localhost:7000/background
-
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
