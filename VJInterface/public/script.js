@@ -1,5 +1,12 @@
+const URL="http://arj247.itp.io:7000";
+
 //GLOBAL VARIABLES
-let mode;
+let modeState ={
+  mode: 0
+};
+let keyWord={
+  gifword: ""
+}
 let fgColor = {
   hue: 0,
   sat: 0,
@@ -16,7 +23,9 @@ let shapes = {
   triangle: false,
   squiggle: false,
   arc: false,
-}
+};
+
+
 
 //GET DOM ELEMENTS
 window.addEventListener('load', function() {
@@ -50,12 +59,19 @@ window.addEventListener('load', function() {
     }
     if (gifMode.checked) {
       //gif mode on
-      mode = 1;
+      modeState.mode = 1;
     } else {
       //both modes off
-      mode = 0;
+      modeState.mode = 0;
     }
-    console.log("POST", mode);
+    console.log("POST", modeState);
+    axios({
+      method: 'post',
+      url: URL,
+      data:{
+       modeState 
+      }
+    })
   });
 
   //set abstract visual mode
@@ -67,12 +83,19 @@ window.addEventListener('load', function() {
     }
     if (avMode.checked) {
       //visual mode on
-      mode = 2;
+      modeState.mode = 2;
     } else {
       //both modes off
-      mode = 0;
+      modeState.mode = 0;
     }
-    console.log("POST", mode);
+    console.log("POST", modeState                );
+    axios({
+      method: 'post',
+      url: URL,
+      data:{
+        modeState
+      }
+    })
   });
 
   //get the gif keyword
@@ -82,6 +105,14 @@ window.addEventListener('load', function() {
     //field cannot be empty
     if (e.keyCode === 13 && this.value != "") {
       console.log("POST", this.value);
+      keyWord.gifword = this.valu;
+      axios({
+        method: 'post',
+        url: URL,
+        data:{
+          keyWord
+        }
+      });
     }
   });
 
