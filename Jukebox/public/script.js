@@ -1,18 +1,10 @@
 //GLOBAL VARIABLES
-var state = {
-  id: 0,
-  title: 'null',
-  artist: 'null',
-  isPlaying: false,
-  mood: 'null',
-  genre: 'null',
-  url: 'null'
-};
-
 var playlist = [];
+let songIndex = 0;
 
 //server url
 let url = "http://206.189.186.47:3000";
+// let url = "http://bc2542.itp.io:3000";
 //use cors-anywhere to get around CORS
 let corsAny = "https://cors-anywhere.herokuapp.com/";
 let reqUrl = corsAny + url;
@@ -20,7 +12,7 @@ let reqUrl = corsAny + url;
 window.addEventListener('load', function() {
   //start up - see if server is up
   init();
-
+  getPlaylist();
   //get elements
   let playButton = document.getElementById('play');
   let addSongButton = document.getElementById('addSong');
@@ -46,24 +38,25 @@ window.addEventListener('load', function() {
       url: song.url
     }).then(function(response) {
       console.log(response);
-    });
+      songIndex = 0;
 
-    // axios({
-    //     method: 'put',
-    //     url: reqPath,
-    //     data: {
-    //       id: playlist[0].id,
-    //       title: playlist[0].title,
-    //       artist: playlist[0].artist,
-    //       mood: playlist[0].mood,
-    //       genre: playlist[0].genre,
-    //       url: playlist[0].url
-    //     }
-    //   })
-    //   .then(function(response) {
-    //     this.style.visibility = "hidden";
-    //     console.log(response.data);
-    //   });
+      console.log('playing music now');
+      let loop = setInterval(function() {
+        musicPlayer.src = url + playlist[songIndex].url;
+        console.log('now playing', playlist[songIndex].title);
+        if (playlist[songIndex].title != "null") {
+          currentSong.innerHTML = ("<p>" + playlist[songIndex].title + " by " + playlist[songIndex].artist + "</p>");
+        }
+        musicPlayer.play();
+        songIndex++
+
+        if (songIndex > playlist.length - 1) {
+          console.log('done with playlist');
+          clearInterval(loop);
+        }
+      }, 6000);
+
+    });
   });
 
   //when user adds a song
@@ -105,8 +98,6 @@ window.addEventListener('load', function() {
 
 
 
-
-
   //check to see that their server is up
   //get welcome message
   function init() {
@@ -142,6 +133,7 @@ window.addEventListener('load', function() {
       });
   }
 
+  //see what is playing - NOT USED
   function whatIsPlaying() {
     let reqPath = reqUrl + '/api/player/currently-playing'
     axios({
@@ -149,11 +141,14 @@ window.addEventListener('load', function() {
         url: reqPath,
       })
       .then(function(response) {
-        console.log(response.data);
         let song = response.data;
-        currentSong.innerHTML = ("<p>" + song.title + " by " + song.artist + "</p>");
-        musicPlayer.src = song.url;
-        musicPlayer.play();
+        // console.log(response.data);
+        // if (song.title != "null") {
+        //   currentSong.innerHTML = ("<p>" + song.title + " by " + song.artist + "</p>");
+        // musicPlayer.src = url + song.url;
+        // musicPlayer.play();
+        // }
+
       });
   }
 
