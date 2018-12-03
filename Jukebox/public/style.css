@@ -38,7 +38,7 @@ h1 {
   margin-left: auto;
   margin-right: auto;
   top: 150px;
-  
+
 }
 
 button {
@@ -48,7 +48,13 @@ button {
 }
 
 #playlist {
-  width: 50%;
+  font-size: 12px;
+  left: 20%;
+  text-align: left;
+}
+
+p {
+  margin: 3px;
 }
 
 audio {

@@ -26,24 +26,44 @@ window.addEventListener('load', function() {
   let addSongButton = document.getElementById('addSong');
   let moodSelect = document.getElementById('mood');
   let playlistDiv = document.getElementById('playlist');
+  let musicPlayer = document.getElementById('musicPlayer');
+  let currentSong = document.getElementById('currentSong');
+
+
 
   playButton.addEventListener('click', function() {
-
     let reqPath = reqUrl + "/api/player/play";
+    let song = playlist[0];
     //set isPlaying to true
-    console.log('PUT', 'true');
+    console.log('PUT', reqPath);
+    axios.put(reqPath, {
+      id: song.id,
+      title: song.title,
+      artist: song.artist,
+      // isPlaying: 'true',
+      mood: song.mood,
+      genre: song.genre,
+      url: song.url
+    }).then(function(response) {
+      console.log(response);
+    });
 
-    axios({
-        method: 'put',
-        url: reqUrl + "/api/player/play",
-      })
-      .then(function(response) {
-        if (response.data){
-          this.style.visibility = "hidden";
-          console.log(response.data);
-        }
-      });
-
+    // axios({
+    //     method: 'put',
+    //     url: reqPath,
+    //     data: {
+    //       id: playlist[0].id,
+    //       title: playlist[0].title,
+    //       artist: playlist[0].artist,
+    //       mood: playlist[0].mood,
+    //       genre: playlist[0].genre,
+    //       url: playlist[0].url
+    //     }
+    //   })
+    //   .then(function(response) {
+    //     this.style.visibility = "hidden";
+    //     console.log(response.data);
+    //   });
   });
 
   //when user adds a song
@@ -76,10 +96,14 @@ window.addEventListener('load', function() {
       });
   });
 
-  //loop every 1 second
+  //loop every 3 second
   setInterval(function() {
+    getPlaylist();
+    whatIsPlaying();
+  }, 3000);
 
-  }, 1000);
+
+
 
 
 
@@ -100,6 +124,7 @@ window.addEventListener('load', function() {
       });
   }
 
+  //get current playlist
   function getPlaylist() {
     axios({
         method: 'get',
@@ -107,13 +132,29 @@ window.addEventListener('load', function() {
       })
       .then(function(response) {
         if (response.data) {
-          playlistDiv.innerHTML = response.data;
-        } else {
-          console.log("error: no playlist")
+          playlist = response.data;
+          //show on the website
+          playlistDiv.innerHTML = "";
+          for (let i = 0; i < playlist.length; i++) {
+            playlistDiv.innerHTML += ("<li>" + response.data[i].title + " by " + response.data[i].artist + "</li>");
+          }
         }
       });
   }
 
-
+  function whatIsPlaying() {
+    let reqPath = reqUrl + '/api/player/currently-playing'
+    axios({
+        method: 'get',
+        url: reqPath,
+      })
+      .then(function(response) {
+        console.log(response.data);
+        let song = response.data;
+        currentSong.innerHTML = ("<p>" + song.title + " by " + song.artist + "</p>");
+        musicPlayer.src = song.url;
+        musicPlayer.play();
+      });
+  }
 
 });
