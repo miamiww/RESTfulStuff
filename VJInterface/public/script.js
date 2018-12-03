@@ -1,5 +1,12 @@
+const URL="http://10.17.238.73:7000";
+
 //GLOBAL VARIABLES
-let mode;
+let modeState ={
+  value: "0"
+};
+let keyWord={
+  gifword: ""
+}
 let fgColor = {
   hue: 0,
   sat: 0,
@@ -16,7 +23,9 @@ let shapes = {
   triangle: false,
   squiggle: false,
   arc: false,
-}
+};
+
+
 
 //GET DOM ELEMENTS
 window.addEventListener('load', function() {
@@ -50,12 +59,20 @@ window.addEventListener('load', function() {
     }
     if (gifMode.checked) {
       //gif mode on
-      mode = 1;
+      modeState.value = "1";
     } else {
       //both modes off
-      mode = 0;
+      modeState.value = "0";
     }
-    console.log("POST", mode);
+    let value = modeState.value;
+    console.log("POST", modeState);
+    axios({
+      method: 'post',
+      url: URL + "/mode",
+      data:{
+        value 
+      }
+    })
   });
 
   //set abstract visual mode
@@ -67,12 +84,21 @@ window.addEventListener('load', function() {
     }
     if (avMode.checked) {
       //visual mode on
-      mode = 2;
+      modeState.value = "2";
     } else {
       //both modes off
-      mode = 0;
-    }
-    console.log("POST", mode);
+      modeState.value = "0";
+    };
+    // console.log("POST", modeState);
+    let value = modeState.value;
+ 
+    axios({
+      method: 'post',
+      url: URL+"/mode",
+      data:{
+        value
+      }
+    })
   });
 
   //get the gif keyword
@@ -82,6 +108,14 @@ window.addEventListener('load', function() {
     //field cannot be empty
     if (e.keyCode === 13 && this.value != "") {
       console.log("POST", this.value);
+      let gifword = this.value;
+      axios({
+        method: 'post',
+        url: URL+"/gifword",
+        data:{
+          gifword
+        }
+      });
     }
   });
 
