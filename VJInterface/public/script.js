@@ -1,8 +1,8 @@
-const URL="http://arj247.itp.io:7000";
+const URL="http://10.17.238.73:7000";
 
 //GLOBAL VARIABLES
 let modeState ={
-  mode: 0
+  value: "0"
 };
 let keyWord={
   gifword: ""
@@ -59,17 +59,18 @@ window.addEventListener('load', function() {
     }
     if (gifMode.checked) {
       //gif mode on
-      modeState.mode = 1;
+      modeState.value = "1";
     } else {
       //both modes off
-      modeState.mode = 0;
+      modeState.value = "0";
     }
+    let value = modeState.value;
     console.log("POST", modeState);
     axios({
       method: 'post',
-      url: URL,
+      url: URL + "/mode",
       data:{
-       modeState 
+        value 
       }
     })
   });
@@ -83,17 +84,19 @@ window.addEventListener('load', function() {
     }
     if (avMode.checked) {
       //visual mode on
-      modeState.mode = 2;
+      modeState.value = "2";
     } else {
       //both modes off
-      modeState.mode = 0;
-    }
-    console.log("POST", modeState                );
+      modeState.value = "0";
+    };
+    // console.log("POST", modeState);
+    let value = modeState.value;
+ 
     axios({
       method: 'post',
-      url: URL,
+      url: URL+"/mode",
       data:{
-        modeState
+        value
       }
     })
   });
@@ -105,12 +108,12 @@ window.addEventListener('load', function() {
     //field cannot be empty
     if (e.keyCode === 13 && this.value != "") {
       console.log("POST", this.value);
-      keyWord.gifword = this.valu;
+      let gifword = this.value;
       axios({
         method: 'post',
-        url: URL,
+        url: URL+"/gifword",
         data:{
-          keyWord
+          gifword
         }
       });
     }
