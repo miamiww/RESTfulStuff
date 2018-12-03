@@ -1,4 +1,4 @@
-const URL="http://10.17.238.73:7000";
+const URL="http://arj247.itp.io:7000";
 
 //GLOBAL VARIABLES
 let modeState ={
