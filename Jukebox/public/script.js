@@ -3,11 +3,11 @@ var playlist = [];
 let songIndex = 0;
 
 //server url
-let url = "http://206.189.186.47:3000";
+let url = "http://157.230.4.44:3000";
 // let url = "http://bc2542.itp.io:3000";
 //use cors-anywhere to get around CORS
 let corsAny = "https://cors-anywhere.herokuapp.com/";
-let reqUrl = corsAny + url;
+let reqUrl =corsAny+ url;
 
 window.addEventListener('load', function() {
   //start up - see if server is up
