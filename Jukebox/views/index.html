@@ -1,17 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-      <meta charset="utf-8">
-      <title>The Jukebox</title>
-      <script src="script.js"></script>
-      <link rel="stylesheet" type="text/css" href="style.css">
-      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>	         
-  </head>
-  <body>
-  <img src="assets/Juke.png">
-  <audio controls autoplay loop>
+
+<head>
+  <meta charset="utf-8">
+  <title>The Jukebox</title>
+  <script src="script.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <h1>mood jukebox</h1>
+  <img src="/assets/Juke.png">
+
+  <div id="currentSong">nothing is playing yet!</div>
+
+  <button id="play">PLAY</button>
+
+  <div id="selections">
+
+    <select id="mood" name="moods">
+      <option value="happy">Happy</option>
+      <option value="sad">Sad</option>
+      <option value="angry">Angry</option>
+      <option value="scared">Scared</option>
+      <option value="chill">Chill</option>
+    </select>
+
+    <!-- <select id= "genre" name="genres">
+      <option value="rock">Rock</option>
+      <option value="pop">Pop</option>
+      <option value="hiphop">Hip-hop</option>
+      <option value="classical">Classical</option>
+      <option value="jazz">Jazz</option>
+    </select> -->
+
+    <button id="addSong">ADD SONG</button>
+
+  </div>
+
+  <h3>Playlist</h3>
+  <ol id="playlist">
+  </ol>
+
+  <audio id="musicPlayer" controls>
     <source src="assets/theboysareback.mp3" type="audio/mpeg">
   </audio>
-  </body>
-</html>
+</body>
 
+</html>
